@@ -14,11 +14,13 @@ public class Player : MonoBehaviour
     private bool isFacingRight = true;
 
     private Rigidbody2D rb;
+    private Animator anim;
     private float moveInput;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
     }
 
     void Update()
@@ -32,6 +34,9 @@ public class Player : MonoBehaviour
         }
 
         FlipController();
+        anim.SetFloat("Speed", Mathf.Abs(moveInput));
+        anim.SetBool("IsGrounded", isGrounded);
+        anim.SetFloat("yVelocity", rb.linearVelocity.y);
     }
 
     void FixedUpdate()
