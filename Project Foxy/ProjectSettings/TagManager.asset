@@ -8,7 +8,7 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Ground
   - Water
   - UI
   - 
@@ -44,8 +44,17 @@ TagManager:
   - name: Middle
     uniqueID: 3117341651
     locked: 0
-  - name: Platform
+  - name: Object BG
+    uniqueID: 1758573551
+    locked: 0
+  - name: Ground
     uniqueID: 2810374855
+    locked: 0
+  - name: Player
+    uniqueID: 4068593653
+    locked: 0
+  - name: Foreground
+    uniqueID: 2991225449
     locked: 0
   m_RenderingLayers:
   - Default
