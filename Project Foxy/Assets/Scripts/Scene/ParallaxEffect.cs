@@ -2,26 +2,25 @@ using UnityEngine;
 
 public class ParallaxEffect : MonoBehaviour
 {
-    public Camera cam;
-    public float parallaxMultiplier;
+    public Transform target;
+    public float parallaxSpeed;
 
-    private float startPosX;
-    private float startPosY;
+    private Vector3 lastTargetPos;
 
     void Start()
     {
-        if (cam == null)
+        if (target == null)
         {
-            cam = Camera.main;
+            target = GameObject.FindGameObjectWithTag("Player").transform;
         }
 
-        startPosX = transform.position.x;
-        startPosY = transform.position.y;
+        lastTargetPos = target.position;
     }
 
     void LateUpdate()
     {
-        float dist = cam.transform.position.x * parallaxMultiplier;
-        transform.position = new Vector3(startPosX + dist, startPosY, transform.position.z);
+        Vector3 deltaMovement = target.position - lastTargetPos;
+        transform.position += new Vector3(deltaMovement.x * parallaxSpeed, 0f, 0f);
+        lastTargetPos = target.position;
     }
 }

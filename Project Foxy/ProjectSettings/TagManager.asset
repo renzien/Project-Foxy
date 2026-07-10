@@ -11,8 +11,8 @@ TagManager:
   - Ground
   - Water
   - UI
-  - 
-  - 
+  - Player
+  - NPC
   - 
   - 
   - 
@@ -50,8 +50,14 @@ TagManager:
   - name: Ground
     uniqueID: 2810374855
     locked: 0
+  - name: NPC_Background
+    uniqueID: 2867064879
+    locked: 0
   - name: Player
     uniqueID: 4068593653
+    locked: 0
+  - name: NPC_Foreground
+    uniqueID: 487142739
     locked: 0
   - name: Foreground
     uniqueID: 2991225449
