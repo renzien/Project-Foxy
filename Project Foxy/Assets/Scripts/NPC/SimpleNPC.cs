@@ -6,7 +6,13 @@ public class SimpleNPC : MonoBehaviour
     public GameObject dialogInfo;
     public float interactionRadius = 1.5f;
 
+    public string npcName = "Ujang Kasep";
+
+    [TextArea]
+    public string dialogueText = "Lorem ipsum dolor sit amet blablablablabla... Capek";
+
     private bool isFacingLeft = true;
+    private bool isDialogueActive = false;
 
     void Start()
     {
@@ -25,10 +31,25 @@ public class SimpleNPC : MonoBehaviour
         {
             dialogInfo.SetActive(true);
             FacePlayer();
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                DialogueManager.instance.ShowDialogue(npcName, dialogueText);
+                isDialogueActive = true;
+            }
+            else
+            {
+                DialogueManager.instance.HideDialogue();
+                isDialogueActive = false;
+            }
         }
         else
         {
             dialogInfo.SetActive(false);
+            if (isDialogueActive)
+            {
+                DialogueManager.instance.HideDialogue();
+                isDialogueActive = false;
+            }
         }
     }
 

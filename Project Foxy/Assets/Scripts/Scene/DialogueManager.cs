@@ -1,16 +1,65 @@
 using UnityEngine;
+using TMPro;
+using System.Collections;
 
 public class DialogueManager : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    // Initiate
+    public static DialogueManager instance;
+    public GameObject dialogueBox;
+    public TextMeshProUGUI nameText;
+    public TextMeshProUGUI dialogueText;
+    public AnimationCurve bounceCurve;
+    public float bounceDuration = 0.3f;
+
+    private Coroutine bounceCoroutine;
+
+    void Awake()
     {
-        
+        if (instance == null) instance = this;
     }
 
-    // Update is called once per frame
-    void Update()
+    void Start()
     {
+        dialogueBox.SetActive(false);
+    }
+
+    public void ShowDialogue(string npcName, string text)
+    {
+        dialogueBox.SetActive(true);
+        nameText.text = npcName;
+        dialogueText.text = text;
+
+        if (bounceCoroutine != null)
+        {
+            StopCoroutine(bounceCoroutine);
+        }
+
+        bounceCoroutine = StartCoroutine(AnimateBounce());
+    }
+
+    public void HideDialogue()
+    {
+        dialogueBox.SetActive(false);
+        if (bounceCoroutine != null)
+        {
+            StopCoroutine(bounceCoroutine);
+        }
+    }
+
+    private IEnumerator AnimateBounce()
+    {
+        float timer = 0f;
+        dialogueBox.transform.localScale = Vector3.zero;
+
+        while (timer < bounceDuration)
+        {
+            timer += Time.unscaledDeltaTime;
+            float scale = bounceCurve.Evaluate(timer / bounceDuration);
+            dialogueBox.transform.localScale = new Vector3(scale, scale, 1f);
+            yield return null;
+        }
         
+        dialogueBox.transform.localScale = Vector3.one;
     }
 }
