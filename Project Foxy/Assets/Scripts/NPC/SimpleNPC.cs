@@ -33,13 +33,16 @@ public class SimpleNPC : MonoBehaviour
             FacePlayer();
             if (Input.GetKeyDown(KeyCode.E))
             {
-                DialogueManager.instance.ShowDialogue(npcName, dialogueText);
-                isDialogueActive = true;
-            }
-            else
-            {
-                DialogueManager.instance.HideDialogue();
-                isDialogueActive = false;
+                if (!isDialogueActive)
+                {
+                    DialogueManager.instance.ShowDialogue(npcName, dialogueText);
+                    isDialogueActive = true;
+                }
+                else
+                {
+                    DialogueManager.instance.HideDialogue();
+                    isDialogueActive = false;
+                }
             }
         }
         else
