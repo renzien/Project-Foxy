@@ -6,4 +6,5 @@ public class DialogueData : ScriptableObject
     public string npcName;
     [TextArea]
     public string dialogueText;
+    public AudioClip npcVoice;
 }

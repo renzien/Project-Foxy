@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6eb32cf516acefb4daf46cf985ce0413, type: 3}
   m_Name: Dialogue_02
   m_EditorClassIdentifier: Assembly-CSharp::DialogueData
-  npcName: Ujang Kasep
-  dialogueText: Apakah ada sesuatu yang bisa ku bantu ?
+  npcName: Rubah
+  dialogueText: Terima kasih. Aku baru tiba dan masih belum mengenal tempat ini.

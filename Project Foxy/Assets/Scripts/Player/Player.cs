@@ -25,6 +25,14 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        if (DialogueManager.instance.isTalking)
+        {
+            moveInput = 0f;
+            rb.linearVelocity = new Vector2(0f, rb.linearVelocity.y);
+            anim.SetFloat("Speed", 0f);
+            return;
+        }
+
         moveInput = Input.GetAxis("Horizontal");
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
 

@@ -8,7 +8,7 @@ public class SimpleNPC : MonoBehaviour
 
     public DialogueData[] dialogues;
     private int currentDialogueIndex = 0;
-    
+
     private bool isFacingLeft = true;
     private bool isDialogueActive = false;
 
@@ -27,15 +27,17 @@ public class SimpleNPC : MonoBehaviour
         float distance = Vector2.Distance(transform.position, player.position);
         if (distance <= interactionRadius)
         {
-            dialogInfo.SetActive(true);
+            dialogInfo.SetActive(!isDialogueActive);
+            
             FacePlayer();
+            
             if (Input.GetKeyDown(KeyCode.E))
             {
                 if (dialogues == null || dialogues.Length == 0) return;
 
                 if (!isDialogueActive)
                 {
-                    DialogueManager.instance.ShowDialogue(dialogues[currentDialogueIndex].npcName, dialogues[currentDialogueIndex].dialogueText);
+                    DialogueManager.instance.ShowDialogue(dialogues[currentDialogueIndex].npcName, dialogues[currentDialogueIndex].dialogueText, dialogues[currentDialogueIndex].npcVoice);
                     isDialogueActive = true;
                 }
                 else
@@ -44,7 +46,7 @@ public class SimpleNPC : MonoBehaviour
 
                     if (currentDialogueIndex < dialogues.Length)
                     {
-                        DialogueManager.instance.ShowDialogue(dialogues[currentDialogueIndex].npcName, dialogues[currentDialogueIndex].dialogueText);
+                        DialogueManager.instance.ShowDialogue(dialogues[currentDialogueIndex].npcName, dialogues[currentDialogueIndex].dialogueText, dialogues[currentDialogueIndex].npcVoice);
                     }
                     else
                     {
