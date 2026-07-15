@@ -959,6 +959,40 @@ MonoBehaviour:
   dialogueBox: {fileID: 1741727327}
   nameText: {fileID: 1619042487}
   dialogueText: {fileID: 218679482}
+  bounceCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.6
+      value: 1.15
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  bounceDuration: 0.3
 --- !u!1 &1045253198
 GameObject:
   m_ObjectHideFlags: 0
@@ -6974,6 +7008,18 @@ PrefabInstance:
       propertyPath: interactionRadius
       value: 2.5
       objectReference: {fileID: 0}
+    - target: {fileID: 1396917524435470851, guid: b262220a798a3cb4a99a62036f712259, type: 3}
+      propertyPath: dialogues.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1396917524435470851, guid: b262220a798a3cb4a99a62036f712259, type: 3}
+      propertyPath: 'dialogues.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 4cd3f6058b7769d4bbde2342b077c9c0, type: 2}
+    - target: {fileID: 1396917524435470851, guid: b262220a798a3cb4a99a62036f712259, type: 3}
+      propertyPath: 'dialogues.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 9166bb8c80801964781189c8109ca313, type: 2}
     - target: {fileID: 5498116098984618458, guid: b262220a798a3cb4a99a62036f712259, type: 3}
       propertyPath: m_Name
       value: Frog_NPC
