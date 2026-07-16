@@ -10,6 +10,9 @@ public class Player : MonoBehaviour
     public float groundCheckRadius = 0.2f;
     public LayerMask groundLayer;
 
+    [Header("Effects")]
+    public ParticleSystem dustParticle; // Referensi untuk partikel debu
+
     private bool isGrounded;
     private bool isFacingRight = true;
 
@@ -25,16 +28,34 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        // 1. Cek apakah sedang dialog
         if (DialogueManager.instance.isTalking)
         {
             moveInput = 0f;
             rb.linearVelocity = new Vector2(0f, rb.linearVelocity.y);
             anim.SetFloat("Speed", 0f);
+            
+            // Matikan debu saat dialog
+            if (dustParticle != null && dustParticle.isPlaying) dustParticle.Stop();
             return;
         }
 
         moveInput = Input.GetAxis("Horizontal");
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
+
+        // 2. Logika Particle Debu
+        if (dustParticle != null)
+        {
+            // Jika menjejak tanah DAN ada pergerakan WASD
+            if (isGrounded && Mathf.Abs(moveInput) > 0f)
+            {
+                if (!dustParticle.isPlaying) dustParticle.Play();
+            }
+            else
+            {
+                if (dustParticle.isPlaying) dustParticle.Stop();
+            }
+        }
 
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
