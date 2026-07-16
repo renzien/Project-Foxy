@@ -6,11 +6,14 @@ public class SimpleNPC : MonoBehaviour
     public GameObject dialogInfo;
     public float interactionRadius = 1.5f;
 
-    public DialogueData[] dialogues;
+    public DialogueData[] defaultDialogues;
+    
+    private DialogueData[] currentDialogues;
     private int currentDialogueIndex = 0;
 
     private bool isFacingLeft = true;
     private bool isDialogueActive = false;
+    private bool isWaitingForChoice = false;
 
     void Start()
     {
@@ -20,39 +23,38 @@ public class SimpleNPC : MonoBehaviour
         }
 
         dialogInfo.SetActive(false);
+        currentDialogues = defaultDialogues;
     }
 
     void Update()
     {
         float distance = Vector2.Distance(transform.position, player.position);
+        
         if (distance <= interactionRadius)
         {
             dialogInfo.SetActive(!isDialogueActive);
-            
             FacePlayer();
             
-            if (Input.GetKeyDown(KeyCode.E))
+            if (Input.GetKeyDown(KeyCode.E) && !isWaitingForChoice)
             {
-                if (dialogues == null || dialogues.Length == 0) return;
+                if (currentDialogues == null || currentDialogues.Length == 0) return;
 
                 if (!isDialogueActive)
                 {
-                    DialogueManager.instance.ShowDialogue(dialogues[currentDialogueIndex].npcName, dialogues[currentDialogueIndex].dialogueText, dialogues[currentDialogueIndex].npcVoice);
+                    PlayCurrentDialogue();
                     isDialogueActive = true;
                 }
                 else
                 {
                     currentDialogueIndex++;
 
-                    if (currentDialogueIndex < dialogues.Length)
+                    if (currentDialogueIndex < currentDialogues.Length)
                     {
-                        DialogueManager.instance.ShowDialogue(dialogues[currentDialogueIndex].npcName, dialogues[currentDialogueIndex].dialogueText, dialogues[currentDialogueIndex].npcVoice);
+                        PlayCurrentDialogue();
                     }
                     else
                     {
-                        DialogueManager.instance.HideDialogue();
-                        isDialogueActive = false;
-                        currentDialogueIndex = 0; 
+                        EndDialogue();
                     }
                 }
             }
@@ -62,11 +64,54 @@ public class SimpleNPC : MonoBehaviour
             dialogInfo.SetActive(false);
             if (isDialogueActive)
             {
-                DialogueManager.instance.HideDialogue();
-                isDialogueActive = false;
-                currentDialogueIndex = 0;
+                EndDialogue();
             }
         }
+    }
+
+    private void PlayCurrentDialogue()
+    {
+        DialogueData data = currentDialogues[currentDialogueIndex];
+        isWaitingForChoice = data.isQuestion;
+        
+        DialogueManager.instance.ShowDialogue(data.npcName, data.dialogueText, data.npcVoice, this);
+    }
+
+    public bool IsWaitingForChoice()
+    {
+        return isWaitingForChoice;
+    }
+
+    public void ReceiveChoice(bool isYes)
+    {
+        isWaitingForChoice = false;
+        DialogueData data = currentDialogues[currentDialogueIndex];
+
+        if (isYes && data.yesPath != null && data.yesPath.Length > 0)
+        {
+            currentDialogues = data.yesPath;
+        }
+        else if (!isYes && data.noPath != null && data.noPath.Length > 0)
+        {
+            currentDialogues = data.noPath;
+        }
+        else
+        {
+            EndDialogue();
+            return;
+        }
+
+        currentDialogueIndex = 0;
+        PlayCurrentDialogue();
+    }
+
+    private void EndDialogue()
+    {
+        DialogueManager.instance.HideDialogue();
+        isDialogueActive = false;
+        isWaitingForChoice = false;
+        currentDialogueIndex = 0;
+        currentDialogues = defaultDialogues;
     }
 
     private void FacePlayer()

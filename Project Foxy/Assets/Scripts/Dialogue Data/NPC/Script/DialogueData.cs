@@ -7,4 +7,8 @@ public class DialogueData : ScriptableObject
     [TextArea]
     public string dialogueText;
     public AudioClip npcVoice;
+
+    public bool isQuestion;
+    public DialogueData[] yesPath;
+    public DialogueData[] noPath;
 }

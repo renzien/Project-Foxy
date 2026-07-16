@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 using System.Collections;
 
 public class DialogueManager : MonoBehaviour
@@ -9,6 +10,10 @@ public class DialogueManager : MonoBehaviour
     public TextMeshProUGUI nameText;
     public TextMeshProUGUI dialogueText;
     
+    public GameObject choiceBox;
+    public Button yesButton;
+    public Button noButton;
+
     public AudioSource audioSource;
 
     [Header("Audio UI")]
@@ -25,6 +30,7 @@ public class DialogueManager : MonoBehaviour
     private Coroutine typingCoroutine;
 
     public bool isTalking = false;
+    private SimpleNPC currentNPC;
 
     void Awake()
     {
@@ -34,11 +40,16 @@ public class DialogueManager : MonoBehaviour
     void Start()
     {
         dialogueBox.SetActive(false);
+        if (choiceBox != null) choiceBox.SetActive(false);
+
+        if (yesButton != null) yesButton.onClick.AddListener(OnYesClicked);
+        if (noButton != null) noButton.onClick.AddListener(OnNoClicked);
     }
 
-    public void ShowDialogue(string npcName, string text, AudioClip voiceClip)
+    public void ShowDialogue(string npcName, string text, AudioClip voiceClip, SimpleNPC npc = null)
     {
         isTalking = true;
+        currentNPC = npc;
 
         if (popSound != null && audioSource != null)
         {
@@ -48,6 +59,7 @@ public class DialogueManager : MonoBehaviour
         bool isOpening = !dialogueBox.activeSelf;
         
         dialogueBox.SetActive(true);
+        if (choiceBox != null) choiceBox.SetActive(false);
         nameText.text = npcName;
 
         if (typingCoroutine != null) StopCoroutine(typingCoroutine);
@@ -69,9 +81,15 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
+    public void ShowChoiceBox()
+    {
+        if (choiceBox != null) choiceBox.SetActive(true);
+    }
+
     public void HideDialogue()
     {
         isTalking = false;
+        currentNPC = null;
 
         if (popSound != null && audioSource != null)
         {
@@ -79,8 +97,24 @@ public class DialogueManager : MonoBehaviour
         }
 
         dialogueBox.SetActive(false);
+        if (choiceBox != null) choiceBox.SetActive(false);
+        
         if (bounceCoroutine != null) StopCoroutine(bounceCoroutine);
         if (typingCoroutine != null) StopCoroutine(typingCoroutine);
+    }
+
+    private void OnYesClicked()
+    {
+        if (popSound != null && audioSource != null) audioSource.PlayOneShot(popSound, popVolume);
+        if (choiceBox != null) choiceBox.SetActive(false);
+        if (currentNPC != null) currentNPC.ReceiveChoice(true);
+    }
+
+    private void OnNoClicked()
+    {
+        if (popSound != null && audioSource != null) audioSource.PlayOneShot(popSound, popVolume);
+        if (choiceBox != null) choiceBox.SetActive(false);
+        if (currentNPC != null) currentNPC.ReceiveChoice(false);
     }
 
     private IEnumerator TypeText(string text)
@@ -92,6 +126,11 @@ public class DialogueManager : MonoBehaviour
         {
             dialogueText.maxVisibleCharacters++;
             yield return new WaitForSeconds(typingSpeed);
+        }
+        
+        if (currentNPC != null && currentNPC.IsWaitingForChoice())
+        {
+            ShowChoiceBox();
         }
     }
 
