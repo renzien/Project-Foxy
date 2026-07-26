@@ -6046,7 +6046,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AudioManager
   bgmSource: {fileID: 711533032}
   ambientSource: {fileID: 711533033}
-  bgmClip: {fileID: 8300000, guid: 4592cac5f41c3d840be404ac2ffdb287, type: 3}
+  bgmClip: {fileID: 8300000, guid: 3528a3c21ea706c478fa3206c8bd8108, type: 3}
   windClips:
   - {fileID: 8300000, guid: 5f8a5fab999e3e041ad4abb71a0efba3, type: 3}
   - {fileID: 8300000, guid: 7c1154cc86716734f8764178998bc065, type: 3}
@@ -17387,9 +17387,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 4c349fc2b28822b4eaf1f6b2ae64d871, type: 2}
     - target: {fileID: 1396917524435470851, guid: b262220a798a3cb4a99a62036f712259, type: 3}
+      propertyPath: afterNoDialgoues.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1396917524435470851, guid: b262220a798a3cb4a99a62036f712259, type: 3}
       propertyPath: defaultDialogues.Array.size
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 1396917524435470851, guid: b262220a798a3cb4a99a62036f712259, type: 3}
+      propertyPath: 'afterNoDialgoues.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 911519f993bba544b807d7047bd347ff, type: 2}
     - target: {fileID: 1396917524435470851, guid: b262220a798a3cb4a99a62036f712259, type: 3}
       propertyPath: 'defaultDialogues.Array.data[0]'
       value: 

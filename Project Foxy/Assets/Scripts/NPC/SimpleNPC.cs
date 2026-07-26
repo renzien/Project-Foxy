@@ -7,6 +7,7 @@ public class SimpleNPC : MonoBehaviour
     public float interactionRadius = 1.5f;
 
     public DialogueData[] defaultDialogues;
+    public DialogueData[] afterNoDialgoues;
     
     private DialogueData[] currentDialogues;
     private int currentDialogueIndex = 0;
@@ -14,6 +15,7 @@ public class SimpleNPC : MonoBehaviour
     private bool isFacingLeft = true;
     private bool isDialogueActive = false;
     private bool isWaitingForChoice = false;
+    private bool isRejected = false;
 
     void Start()
     {
@@ -90,10 +92,12 @@ public class SimpleNPC : MonoBehaviour
         if (isYes && data.yesPath != null && data.yesPath.Length > 0)
         {
             currentDialogues = data.yesPath;
+            isRejected = false;
         }
         else if (!isYes && data.noPath != null && data.noPath.Length > 0)
         {
             currentDialogues = data.noPath;
+            isRejected = true;
         }
         else
         {
@@ -111,6 +115,13 @@ public class SimpleNPC : MonoBehaviour
         isDialogueActive = false;
         isWaitingForChoice = false;
         currentDialogueIndex = 0;
+
+        if (isRejected && afterNoDialgoues != null && afterNoDialgoues.Length > 0)
+        {
+            defaultDialogues = afterNoDialgoues;
+            isRejected = false;
+        }
+        
         currentDialogues = defaultDialogues;
     }
 
