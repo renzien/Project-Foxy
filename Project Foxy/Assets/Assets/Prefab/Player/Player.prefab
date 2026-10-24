@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 8418426965924417281}
   - component: {fileID: 4401214845323624321}
   - component: {fileID: 2136955568316903414}
+  - component: {fileID: 8177773269012210778}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -37,6 +38,7 @@ Transform:
   m_Children:
   - {fileID: 2142840132840719393}
   - {fileID: 4896744903817159384}
+  - {fileID: 7202264998022428491}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &3288735810252219359
@@ -121,7 +123,7 @@ Rigidbody2D:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
@@ -227,8 +229,36 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HealthManager
   maxHealth: 16
   currentHealth: 0
-  heartImages: []
-  heartSprites: []
+  heartImages:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  heartSprites:
+  - {fileID: 4606908045521496030, guid: a96d83dfd99cf2c498f13bb78a66dfb2, type: 3}
+  - {fileID: 846941826, guid: a96d83dfd99cf2c498f13bb78a66dfb2, type: 3}
+  - {fileID: 78271614, guid: a96d83dfd99cf2c498f13bb78a66dfb2, type: 3}
+  - {fileID: -959833834, guid: a96d83dfd99cf2c498f13bb78a66dfb2, type: 3}
+  - {fileID: 350380818, guid: a96d83dfd99cf2c498f13bb78a66dfb2, type: 3}
+--- !u!114 &8177773269012210778
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2155926158809685461}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 033e687f3b6b79b4f964475217a8c1a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerAttack
+  attackPoint: {fileID: 7202264998022428491}
+  attackRange: 0.5
+  attackDamage: 1
+  attackRate: 2
+  enemyLayers:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!1 &4431213278166720522
 GameObject:
   m_ObjectHideFlags: 0
@@ -5072,6 +5102,37 @@ ParticleSystemRenderer:
   m_MeshWeighting1: 1
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
+--- !u!1 &5250825508989328724
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7202264998022428491}
+  m_Layer: 6
+  m_Name: AttackPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7202264998022428491
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5250825508989328724}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.62, y: -0.23, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 693423854715218425}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8202624200475113036
 GameObject:
   m_ObjectHideFlags: 0
