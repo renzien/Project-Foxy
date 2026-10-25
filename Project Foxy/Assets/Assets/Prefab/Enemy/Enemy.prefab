@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 1049816897850091618}
   - component: {fileID: 7019661767462056683}
   - component: {fileID: 1149147361977693003}
+  - component: {fileID: 2924090329574105761}
   m_Layer: 7
   m_Name: Enemy
   m_TagString: Untagged
@@ -222,6 +223,22 @@ MonoBehaviour:
     m_Bits: 8
   groundCheckDistance: 0.77
   wallCheckDistance: 1.58
+--- !u!114 &2924090329574105761
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 154939556397758978}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23d5b72d2faef834ea87a4890da7b4ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
+  maxHealth: 3
+  knockbackForceX: 6
+  knockbackForceY: 3
+  knockbackDuration: 0.2
 --- !u!1 &5104249557932490230
 GameObject:
   m_ObjectHideFlags: 0

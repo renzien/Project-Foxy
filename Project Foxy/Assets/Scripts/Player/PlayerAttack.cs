@@ -14,7 +14,12 @@ public class PlayerAttack : MonoBehaviour
     [Header("Roll Dash Settings")]
     public float dashSpeed = 8f;
     public float dashDuration = 0.25f;
-    public MonoBehaviour playerMovementScript; 
+    public MonoBehaviour playerMovementScript;
+
+    [Header("Player Recoil (Knockback) Settings")]
+    public float recoilForceX = 5f;
+    public float recoilForceY = 3.5f;
+    public float recoilDuration = 0.2f;
 
     [Header("Detection")]
     public LayerMask enemyLayers;
@@ -34,7 +39,6 @@ public class PlayerAttack : MonoBehaviour
 
     void Update()
     {
-        // Rekam arah gerak terakhir agar saat diam Foxy tetap roll ke arah hadapnya
         float inputX = Input.GetAxisRaw("Horizontal");
         if (Mathf.Abs(inputX) > 0.01f)
         {
@@ -60,7 +64,6 @@ public class PlayerAttack : MonoBehaviour
             anim.SetTrigger("Attack");
         }
 
-        // Matikan sementara skrip jalan biasa agar kecepatan dash tidak tertimpa
         if (playerMovementScript != null)
         {
             playerMovementScript.enabled = false;
@@ -69,18 +72,17 @@ public class PlayerAttack : MonoBehaviour
         float dashDir = GetFacingDirection();
         HashSet<Collider2D> hitEnemiesRecord = new HashSet<Collider2D>();
         float timer = 0f;
+        bool hasHitEnemy = false;
 
         while (timer < dashDuration)
         {
             timer += Time.deltaTime;
 
-            // Berikan dorongan maju selama menggelinding
             if (rb != null)
             {
                 rb.linearVelocity = new Vector2(dashDir * dashSpeed, rb.linearVelocity.y);
             }
 
-            // Deteksi musuh sepanjang gerakan roll (1 musuh maksimal kena 1x per roll)
             if (attackPoint != null)
             {
                 Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayers);
@@ -92,16 +94,29 @@ public class PlayerAttack : MonoBehaviour
                         EnemyHealth enemyHealth = enemy.GetComponent<EnemyHealth>();
                         if (enemyHealth != null)
                         {
-                            enemyHealth.TakeDamage(attackDamage);
+                            enemyHealth.TakeDamage(attackDamage, transform);
+                            hasHitEnemy = true;
                         }
                     }
                 }
             }
 
+            // Jika mengenai musuh, hentikan dash maju dan langsung picu pantulan mundur
+            if (hasHitEnemy)
+            {
+                break;
+            }
+
             yield return null;
         }
 
-        // Hentikan sisa luncuran dan aktifkan kembali skrip jalan Foxy
+        // Berikan efek knockback mundur pada Player jika serangan mengenai musuh
+        if (hasHitEnemy && rb != null)
+        {
+            rb.linearVelocity = new Vector2(-dashDir * recoilForceX, recoilForceY);
+            yield return new WaitForSeconds(recoilDuration);
+        }
+
         if (rb != null)
         {
             rb.linearVelocity = new Vector2(0f, rb.linearVelocity.y);
